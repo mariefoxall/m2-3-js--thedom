@@ -48,7 +48,8 @@ main {
 }
 .frog {
   border-radius: 50%;
-  background-color: white;
+  /* background-color: white; */
+  /* background-image: url("/frog.png"); */
   color: #fff;
   font-weight: 700;
   display: flex;
