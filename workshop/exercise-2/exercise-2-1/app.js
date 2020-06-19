@@ -10,6 +10,11 @@ const FROGS = 3;
 const main = document.querySelector("main");
 const track = document.querySelector(".track");
 
+const body = document.querySelector("body");
+const winner = document.createElement("div");
+winner.setAttribute("class", "winner");
+body.appendChild(winner);
+
 let racers = [];
 
 // while (racers.length < FROGS) {
@@ -18,11 +23,6 @@ let racers = [];
 //   racers[randomPick].progress = 0;
 // }
 
-for (i = 0; i < FROGS; i++) {
-  racers.push(frogStable[i]);
-  racers[i].progress = 0;
-}
-
 console.log(racers);
 
 for (i = 0; i < FROGS; i++) {
@@ -30,43 +30,49 @@ for (i = 0; i < FROGS; i++) {
   track.appendChild(lane);
   lane.innerHTML = `<span>Lane ${i + 1}</span>`;
   lane.setAttribute("id", `lane-${i + 1}`);
-  let frogRacer = document.createElement("span");
-  lane.appendChild(frogRacer);
-  frogRacer.innerText = `${racers[i].name} ${racers[i].number} ${racers[i].progress}`;
-  frogRacer.setAttribute("class", "frog");
-  //   let frogImgSpan = document.createElement("span");
-  //   frogRacer.appendChild(frogImgSpan);
-  //   let frogImg = document.createElement("img");
-  //   frogImg.setAttribute("src", "workshopexercise-2assets\frog.png");
-  //   frogImgSpan.appendChild(frogImg);
-  frogRacer.style.background = `${racers[i].color}`;
   console.log(lane);
 }
 
-// racers.forEach(function (currentFrog, index) {
-//   let frogLane = document.getelementbyId(`lane-${index + 1}`);
-//   let frogRacer = document.createElement("span");
-//   frogLane.appendChild(frogRacer);
-//   frogRacer.innerText = `${currentFrog.name} ${currentFrog.number} ${currentFrog.progress}`;
-//   frogRacer.setAttribute("class", "frog");
-// });
-
-function racingFrog(item) {
-  //   let frogLane = document.getelementbyId(`lane-${index + 1}`);
-
-  let progressHop = setInterval(function () {
-    if (item.progress < 1) {
-      item.progress = item.progress + Math.random();
-      const frogRacer = document.querySelector(".frog");
-      frogRacer.style.left = `${item.progress * 100}%`;
-    } else {
-      clearInterval(progressHop);
-    }
-  }, Math.random() * 2000);
-}
-
 for (i = 0; i < FROGS; i++) {
-  racingFrog(racers[i]);
+  let currentFrog = frogStable[i];
+  const frogRacer = document.createElement("span");
+  frogRacer.innerText = `${currentFrog.name}\n${currentFrog.number}`;
+  frogRacer.setAttribute("class", "frog");
+  // frogRacer.style.background = `${currentFrog.color}`;
+  frogRacer.progress = 0;
+  document.getElementById(`lane-${i + 1}`).appendChild(frogRacer);
+  racers.push(frogRacer);
 }
 
-// racers.forEach(racingFrog);
+let frogjump = function (racer) {
+  console.log("Racer: ", racer);
+  racer.progress += Math.random() * 10 + 3;
+  racer.style.left = racer.progress + "%";
+
+  // if (racer.progress >= 100) {
+  //   console.log(racer.name + " has won");
+  //   clearInterval(progressHop);
+  //   racer.style.left = "100%";
+  //   winner.innerText = `and the winner is... ${racer.name}!!!`;
+  //   winner.classList.toggle("appear");
+  // }
+};
+
+let progressHop = setInterval(function () {
+  racers.forEach((racer) => {
+    frogjump(racer);
+    if (racer.progress >= 100) {
+      console.log(racer.name + " has won");
+      clearInterval(progressHop);
+      racer.style.left = "100%";
+      // winner.innerText = `and the winner is... ${racer.name}!!!`;
+      // winner.classList.toggle("appear");
+    }
+  });
+}, 1000);
+
+// let racingFrog = function(currentFrog){
+//   let progress = currentFrog.progress;
+//   const trackWidth = track.offsetWidth;
+
+//   }
